@@ -48,6 +48,7 @@ def view_all():
     conn.close()
     return rows
 
+
 def search(name, address, city, state, zip_code):
     conn = sqlite3.connect("coffee_shops.db")
     cur = conn.cursor()
@@ -90,11 +91,7 @@ def show_map():
     map = folium.Map(location=[home.latitude, home.longitude], zoom_start=12)
     map.simple_marker(location=[home.latitude, home.longitude], popup="Elik", marker_color="red")
     for shop in view_all():
-        print shop
         data = list(shop)
-        print data
-        print data[6]
-        print data[7]
         map.simple_marker(location=[data[6], data[7]], popup=data[1], marker_color="green")
     filename = 'coffee_shops_around_me.html'
     map.create_map(path=filename)
