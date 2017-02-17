@@ -43,7 +43,6 @@ def get_selected_row(event):
     e5.delete(0, END)
     e5.insert(END, selected_tuple[5])
 
-
 def delete_command():
     shop_id = selected_tuple[0]
     backend.delete(shop_id)

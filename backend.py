@@ -34,7 +34,7 @@ def insert(name, address, city, state, zip_code):
 def view_address():
     conn = sqlite3.connect("coffee_shops.db")
     cur = conn.cursor()
-    cur.execute("SELECT shop_id, name, address, state, zip_code FROM coffee_shop")
+    cur.execute("SELECT shop_id, name, address, city, state, zip_code FROM coffee_shop")
     rows = cur.fetchall()
     conn.close()
     return rows
