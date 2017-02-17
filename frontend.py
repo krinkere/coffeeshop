@@ -4,7 +4,7 @@ import backend
 
 def view_command():
     list1.delete(0, END)
-    for shop in backend.view_all():
+    for shop in backend.view_address():
         list1.insert(END, shop)
 
 
@@ -12,6 +12,7 @@ def search_command():
     list1.delete(0, END)
     shops = backend.search(name_text.get(), street_text.get(), city_text.get(), state_text.get(), zip_text.get())
     if len(shops) == 0:
+        list1.delete(0, END)
         list1.insert(END, "No matches found")
     else:
         for shop in shops:
@@ -19,8 +20,12 @@ def search_command():
 
 
 def add_command():
-    backend.insert(name_text.get(), street_text.get(), city_text.get(), state_text.get(), zip_text.get())
-    view_command()
+    result = backend.insert(name_text.get(), street_text.get(), city_text.get(), state_text.get(), zip_text.get())
+    if result == -1:
+        list1.delete(0, END)
+        list1.insert(END, "Not a valid address")
+    else:
+        view_command()
 
 
 def get_selected_row(event):
@@ -56,6 +61,10 @@ def update_command():
     view_command()
 
 
+def show_map_command():
+    backend.show_map()
+
+
 window = Tk()
 window.wm_title("Coffee Shops Next to me")
 
@@ -71,7 +80,7 @@ l2.grid(row=0, column=2)
 
 street_text = StringVar()
 e2 = Entry(window, textvariable=street_text)
-e2.place(x=310, y=0, width=406)
+e2.place(x=310, y=0, width=470)
 
 l3 = Label(window, text='City')
 l3.grid(row=1, column=0)
@@ -98,28 +107,31 @@ list1 = Listbox(window, height=6, width=55)
 list1.grid(row=2, column=0, rowspan=7, columnspan=4)
 sb1 = Scrollbar(window)
 # sb1.grid(row=2, column=2)
-sb1.place(x=470, y=90, height=100)
+sb1.place(x=470, y=60, height=100)
 list1.configure(yscrollcommand=sb1.set)
 sb1.configure(command=list1.yview)
 list1.bind('<<ListboxSelect>>', get_selected_row)
 
 b1 = Button(window, text="View All", width=12, command=view_command)
-b1.grid(row=2, column=5)
+b1.grid(row=2, column=4)
 
 b2 = Button(window, text="Search", width=12, command=search_command)
-b2.grid(row=3, column=5)
+b2.grid(row=3, column=4)
 
 b3 = Button(window, text="Add", width=12, command=add_command)
-b3.grid(row=4, column=5)
+b3.grid(row=2, column=5)
 
 b4 = Button(window, text="Update", width=12, command=update_command)
-b4.grid(row=5, column=5)
+b4.grid(row=3, column=5)
 
 b5 = Button(window, text="Delete", width=12, command=delete_command)
-b5.grid(row=6, column=5)
+b5.grid(row=4, column=5)
 
-b6 = Button(window, text="Close", width=12, command=window.destroy)
-b6.grid(row=7, column=5)
+b5 = Button(window, text="Show Map", width=12, command=show_map_command)
+b5.grid(row=4, column=4)
+
+b7 = Button(window, text="Close", width=12, command=window.destroy)
+b7.grid(row=8, column=5)
 
 
 window.mainloop()
