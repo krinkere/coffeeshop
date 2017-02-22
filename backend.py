@@ -31,6 +31,8 @@ class DataAccess:
         self.cur.execute("INSERT INTO coffee_shop VALUES (NULL, ?, ?, ?, ?, ?, ?, ?)", (name, address, city, state, zip_code,
                                                                                    latitude, longitude))
         self.conn.commit()
+        print self.cur.lastrowid
+        return self.cur.lastrowid
 
     def view_address(self):
         self.cur.execute("SELECT shop_id, name, address, city, state, zip_code FROM coffee_shop")
