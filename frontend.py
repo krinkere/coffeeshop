@@ -1,16 +1,16 @@
 from Tkinter import *
-import backend
+from backend import DataAccess
 
 
 def view_command():
     list1.delete(0, END)
-    for shop in backend.view_address():
+    for shop in dataAccess.view_address():
         list1.insert(END, shop)
 
 
 def search_command():
     list1.delete(0, END)
-    shops = backend.search(name_text.get(), street_text.get(), city_text.get(), state_text.get(), zip_text.get())
+    shops = dataAccess.search(name_text.get(), street_text.get(), city_text.get(), state_text.get(), zip_text.get())
     if len(shops) == 0:
         list1.delete(0, END)
         list1.insert(END, "No matches found")
@@ -20,7 +20,7 @@ def search_command():
 
 
 def add_command():
-    result = backend.insert(name_text.get(), street_text.get(), city_text.get(), state_text.get(), zip_text.get())
+    result = dataAccess.insert(name_text.get(), street_text.get(), city_text.get(), state_text.get(), zip_text.get())
     if result == -1:
         list1.delete(0, END)
         list1.insert(END, "Not a valid address")
@@ -43,9 +43,10 @@ def get_selected_row(event):
     e5.delete(0, END)
     e5.insert(END, selected_tuple[5])
 
+
 def delete_command():
     shop_id = selected_tuple[0]
-    backend.delete(shop_id)
+    dataAccess.delete(shop_id)
     e1.delete(0, END)
     e2.delete(0, END)
     e3.delete(0, END)
@@ -56,12 +57,12 @@ def delete_command():
 
 def update_command():
     shop_id = selected_tuple[0]
-    backend.update(shop_id, name_text.get(), street_text.get(), city_text.get(), state_text.get(), zip_text.get())
+    dataAccess.update(shop_id, name_text.get(), street_text.get(), city_text.get(), state_text.get(), zip_text.get())
     view_command()
 
 
 def show_map_command():
-    backend.show_map()
+    dataAccess.show_map()
 
 
 window = Tk()
@@ -132,5 +133,6 @@ b5.grid(row=4, column=4)
 b7 = Button(window, text="Close", width=12, command=window.destroy)
 b7.grid(row=8, column=5)
 
+dataAccess = DataAccess()
 
 window.mainloop()
