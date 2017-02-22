@@ -6,3 +6,6 @@ $ python frontend
 
 To test run
 $ pytest
+
+To check test coverage run
+$ py.test --cov=. tests/

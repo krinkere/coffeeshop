@@ -44,7 +44,7 @@ class DataAccess:
         rows = self.cur.fetchall()
         return rows
 
-    def search(self, name, address, city, state, zip_code):
+    def search(self, name="", address="", city="", state="", zip_code=""):
         self.cur.execute("SELECT shop_id, name, address, state, zip_code FROM coffee_shop WHERE name=? OR address=? OR city=? \
                      OR state=? OR zip_code=?",
                     (name, address, city, state, zip_code))
